@@ -55,7 +55,13 @@ async function run(){
              const result = await carItems.deleteOne(query);
              res.send(result);
          })
-
+        // get api useing id
+        app.get('/cars/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id:ObjectId(id)};
+            const ubdate= await carItems.findOne(query)
+            res.send(ubdate);
+        })
     }
     finally{
         // await client.close();
@@ -66,6 +72,7 @@ run().catch(console.dir);
 app.get('/',(req,res)=>{
 
     res.send('hello.');
+    
 
 })
 
