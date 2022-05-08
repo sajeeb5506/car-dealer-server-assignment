@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion,ObjectId } = require('mongodb');
 
 const port = process.env.PORT||5000;
 require('dotenv').config();
@@ -37,16 +37,24 @@ async function run(){
               const result= await carItems.insertOne(data);
               res.send(result);
           })
-// 
-app.get('/myitems', async(req,res)=>{
-    const email = req.query.email;
-    console.log(email);
-    const query={email};
-    const cursor = carItems.find(query);
-    const caritems = await cursor.toArray();
-    res.send(caritems);
 
-});
+       // find user items api
+        app.get('/myitems', async(req,res)=>{
+        const email = req.query.email;
+    
+        const query={email};
+        const cursor = carItems.find(query);
+        const caritems = await cursor.toArray();
+        res.send(caritems);
+
+         });
+        // delete api 
+         app.delete('/cars/:id', async(req,res)=>{
+             const id= req.params.id;
+             const query = {_id:ObjectId(id)};
+             const result = await carItems.deleteOne(query);
+             res.send(result);
+         })
 
     }
     finally{
