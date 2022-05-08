@@ -32,8 +32,22 @@ async function run(){
         });
 
         // post api
+          app.post('/cars',async(req,res)=>{
+              const data= req.body;
+              const result= await carItems.insertOne(data);
+              res.send(result);
+          })
+// 
+app.get('/myitems', async(req,res)=>{
+    const email = req.query.email;
+    console.log(email);
+    const query={email};
+    const cursor = carItems.find(query);
+    const caritems = await cursor.toArray();
+    res.send(caritems);
 
-        
+});
+
     }
     finally{
         // await client.close();
@@ -46,6 +60,7 @@ app.get('/',(req,res)=>{
     res.send('hello.');
 
 })
+
 
 app.listen(port,()=>{
     console.log('server ready', port)
