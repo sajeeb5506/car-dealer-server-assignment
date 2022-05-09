@@ -62,6 +62,19 @@ async function run(){
             const ubdate= await carItems.findOne(query)
             res.send(ubdate);
         })
+        // ubdate api 
+        app.put('/cars/:id',async(req,res)=>{
+            const id = req.params.id;
+            const ubdateQuantity= req.body;
+            const query = {_id:ObjectId(id)};
+            const options = {upsert:true}
+            const ubdate = {
+                $set:{ubdateQuantity}
+            };
+            const result= await carItems.updateOne(query,ubdate,options);
+            res.send(result);
+
+        })
     }
     finally{
         // await client.close();
