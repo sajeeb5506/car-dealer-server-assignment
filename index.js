@@ -65,16 +65,31 @@ async function run(){
         // ubdate api 
         app.put('/cars/:id',async(req,res)=>{
             const id = req.params.id;
-            const ubdateQuantity= req.body;
+            const ubdateQuantity= req.body.quantities;
             const query = {_id:ObjectId(id)};
             const options = {upsert:true}
             const ubdate = {
-                $set:{ubdateQuantity}
+                $set:{ubdateQuantity},
             };
             const result= await carItems.updateOne(query,ubdate,options);
             res.send(result);
 
         })
+        // delever
+        // app.put('/cars/:id',async(req,res)=>{
+        //     const id = req.params.id;
+        //     console.log(id)
+        //     const deleverquentity= req.body.deleverquentity;
+        //     console.log(deleverquentity)
+        //     const query = {_id:ObjectId(id)};
+        //     const options = {upsert:true}
+        //     const ubdate = {
+        //         $set:{deleverquentity},
+        //     };
+        //     const result= await carItems.updateOne(query,ubdate,options);
+        //     res.send(result);
+
+        // })
     }
     finally{
         // await client.close();
